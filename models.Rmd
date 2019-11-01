@@ -1,0 +1,28 @@
+```{r, child="_styles.Rmd"}
+```
+
+<h2 id="multi"><b>The models </b></h2>
+
+<img id="multi" src="images/roboshad.png" alt="logo">
+
+`shadia` contains life-history based simulation models of American shad population dynamics. Each model uses simulated fish populations to predict responses to user-specified fish passage scenarios at dams. The user can change settings for upstream and downstream passage standards, in addition to commercial, sustenance, and recreational fishing mortality rates. Model outputs include reach-specific and whole-basin abundances, age composition, percent repeat spawners, and other metrics as they are added.
+
+A description of each model is provided below, and detailed tutorials can be found at corresponding links. Briefly, these models rely on best available information to parameterize a combination of cohort- and individual-based models to simulate annual population dynamics and spawning migrations. The majority of the functions and parameters included in the models are the same (e.g., behavioral parameters). The balance are derived from river-specific information about habitat, environmental conditions, and biological characteristics. For a detailed explanation of model inputs and outputs, please see <a href="https://danstich.github.io/stich/pubs/Stich_etal_CJFAS_shadia.pdf">Stich et al. (2019)</a>, who used the `penobscotRiverModel` as a case study for application. Please see the links below for overviews of river-specific data.
+
+The models provided through `shadia` can be used for a variety of purposes, from management strategy evaluation to quantifying scope of single-project or catchment-wide dam impacts, to exploring life-history uncertainty and sensitivities. Because these models are continually evolving and new models are still being added, it is **strongly recommended** that users contact the package maintainer, Dan Stich (daniel.stich\@oneonta.edu), before using them to inform management decisions based on a given model. For examples of how the models can be used, please see the <a href="examples.html">this page</a>.
+
+Models that are currently implemented in `shadia` include:
+
+<a href="about_connecticut.html">`connecticutRiverModel`</a>
+
+<a href="about_kennebec.html">`kennebecRiverModel`</a>
+
+<a href="about_merrimack.html">`merrimackRiverModel`</a>
+
+<a href="about_penobscot.html">`penobscotRiverModel`</a>
+
+<a href="about_saco.html">`sacoRiverModel`</a>
+
+<a href="about_susquehanna.html">`susquehannaRiverModel`</a>
+
+<br>

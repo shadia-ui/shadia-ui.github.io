@@ -1,0 +1,30 @@
+```{r, child="_styles.Rmd"}
+```
+
+<h2 id="multi"><b>Examples</b></h2>
+
+This page contains examples of how to run dam passage performance standards models in the `shadia` package for R. This is a work in progress. It is in no way meant to be comprehensive or a record of simulations that have been conducted to date. The examples here are simply meant to get the user started. There are a near-infinite number of ways that these models can be run to suit specific situations. 
+
+If you have specific examples you would like to see, please suggest them using the <a href="https://github.com/danStich/shadia/issues">issues tracker</a>, or better yet, submit them as examples based on those provided here.
+
+<h3 id="multi"><b>General use examples</b></h3>
+
+<h4 id="multi"><b><em>"No passage" and "No dams" scenarios</em></b></h4>
+
+These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models.
+
+<a href = "examples/no_passage.html">No passage</a> example using `penobscotRiverModel()`. <br>
+<a href = "examples/no_dams.html">No dams</a> example using `penobscotRiverModel()`.
+
+
+<h4 id="multi"><b><em>Watershed scale assessment</em></b></h4>
+This section will eventually contain some simulation code and some contour plots for watershed-scale applications of the models.
+
+<h4 id="multi"><b><em>Individual dam impacts</em></b></h4>
+This section will eventually have examples of single-dam investigations.
+
+<h3 id="multi"><b>River-specific examples</b></h3>
+
+There are no river specific examples just yet. We are focusing initially on general applications. But, should really have some cases for trucking, NMPS in CTR, etc.
+
+</br>
