@@ -1,0 +1,30 @@
+name: "shadia"
+output_dir: "."
+navbar:
+  title: "shadia"
+  left:
+    - icon: fa-home
+      href: ../index.html
+    - text: "Getting started"
+      href: ../gettingstarted.html
+    - text: "Models"
+      href: ../models.html
+    - text: "Examples"
+      href: ../examples.html
+    - text: "Contact"
+      href: ../contact.html  
+  right:
+    - icon: fa-github
+      href: https://github.com/danStich/shadia
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
+    toc: false
+    smooth_scroll: true
+    fontsize: 14
+    includes:
+      in_header: ../_header.html
+      after_body: ../footer.html
+    css: ../styles.css
+    

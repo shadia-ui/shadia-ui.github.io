@@ -1,0 +1,142 @@
+```{r, child="../_styles.Rmd"}
+```
+
+<h2 id="multi"><b>No dams scenario</b></h2>
+
+Each of the models in `shadia` can be run under a "no dams" scenario to understand the operational baselines for each population included in the package. In other words, by specifying upstream passage probabilities of 1.00 at all dams in a given river, the user can simulate a scenario in which there is unimpeded passage to spawning habitat.
+
+This is easily achieved for any of the models by running with the default parameter values. 
+
+Here is an example using the Penobscot River, with all other user-specified arguments set to their default values:
+```{r, eval=FALSE}
+# Run the model with 100% upstream
+# passage at any of the dams
+nodams <- penobscotRiverModel()  
+```
+
+```{r, eval=TRUE, echo=FALSE}
+# Load previously run results - not shown in rmd output
+load(file="no_dams.rda")
+```
+
+We could then get the output and plot our result. Of course, this is only a single run, so your results may be very different from what is shown here.
+
+```{r}
+result = nodams$res
+
+plot(x = result$year, y = result$populationSize,
+     type = 'l', lwd=2, col = 'red', xlab='Year',
+     ylab='Spawner abundance')
+```
+
+The above example would run the model a single time for the default number of years (50, in the case of `penobscotRiverModel()`). If we wanted to do this several hundred times to get outputs that are robust to variability in the input distributions, then we could wrap the call above in a snowfall script.
+
+This might look something like:
+
+```{r, eval=FALSE, echo=TRUE}
+# Load R packages
+  library(snowfall)
+  library(rlecuyer)
+  library(shadia)
+  library(plyr)
+
+# Initialize parallel mode using sockets
+sfInit(parallel=TRUE, cpus=7, type="SOCK")
+
+
+wrapper <- function(idx) {
+
+  # Run the model
+  res1 <- penobscotRiverModel(
+          nRuns = 1,
+          nYears = 50,
+          timing = list(1,1,1,1,1,1,1),
+          upstream = list(
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
+          downstream = list(
+            stillwater = 1,
+            orono = 1,
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
+          pinHarvest = 0,
+          inRiverF = 0,
+          commercialF = 0,
+          bycatchF = 0,
+          indirect = 1,
+          latent = 1,
+          watershed = TRUE
+  )
+  
+  # Define the output lists
+    retlist <- list(sim=res1)       
+    return(retlist)
+}
+
+# Export needed data to workers 
+# load required packages on workers.
+  sfLibrary(shadia)
+
+
+# Distribute calculation to workers
+  niterations <- 30
+  start <- Sys.time()
+
+# Use sfLapply() function to send wrapper() to the workers:
+  result <- sfLapply(1:niterations, wrapper) 
+    
+# Stop snowfall
+  Sys.time()-start  
+  sfStop()
+
+# Extract results list from output list
+  out <- lapply(result, function(x) x[[c('sim')]])
+
+# Extract user inputs and population metrics
+  res <- lapply(out, function(x) x[[c('res')]])
+  resdf <- do.call(rbind, res)
+
+# Extract sensitivity variables
+  sens <- lapply(out, function(x) x[[c('sens')]])
+  sensdf <- do.call(rbind, sens)
+
+# Have a look at result  
+  plotter <- ddply(resdf, 'year', summarize,
+                   mu=mean(populationSize),
+                   lwr=quantile(populationSize, probs=0.25),
+                   upr=quantile(populationSize, probs=0.75)
+                   )
+  plot(plotter$year, plotter$mu, type = 'l',
+       xlab = 'Year', ylab='Spawner abundance',
+       ylim=c(0, max(plotter$upr)))
+  polygon(x=c(plotter$year, rev(plotter$year)),
+          y=c(plotter$lwr, rev(plotter$upr)),
+          col='gray87', border=NA)
+  lines(plotter$year, plotter$mu, col='red', lwd=2)
+```
+
+```{r, echo=F, eval=T}
+# Load the result
+  load(file="sf-no_dams.rda")
+  plot(plotter$year, plotter$mu, type = 'l',
+       xlab = 'Year', ylab='Spawner abundance',
+       ylim=c(0, max(plotter$upr)))
+  polygon(x=c(plotter$year, rev(plotter$year)),
+          y=c(plotter$lwr, rev(plotter$upr)),
+          col='gray87', border=NA)
+  lines(plotter$year, plotter$mu, col='red', lwd=2)
+```
+
+<br>
