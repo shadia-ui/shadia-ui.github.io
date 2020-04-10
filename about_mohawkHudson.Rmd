@@ -1,0 +1,51 @@
+```{r, child="_styles.Rmd"}
+```
+
+<br>
+
+<h2 id="multi"><b>Overview of `mohawkHudsonRiverModel()`</b></h2>
+
+The purpose of this page is to provide a general overview of the Mohawk-Hudson River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.
+
+<b>This model is currently implemented only for American shad, but is the first multi-species effort to date. We are actively incorporating data for blueback herring - check back soon!</b>
+
+<h3 id="multi"><b>Habitat definitions</b></h3>
+
+The Mohawk-Hudson River Model includes American shad habitat from the Hudson River estuary upstream to Rome, NY in the Mohawk River and upstream to Hudson Falls, NY in the mainstem Hudson River.
+
+Dams in this model are a mix of hydropower facilities and navigational canals. These include all mainstem dams in the Hudson River, and all canal dams in the Mohawk River and upper Hudson River. Upstream passage and downstream mortality can be assessed at each of these, collectively or individually. The probability that fish use the mainstem or the Mohawk River is included as a management decision, but may be input stochastically by the user.
+
+<!-- <img id="multi" src="" alt="Mohawk-Hudson River model schematic showing dams, migration routes, and production units" width=500em> -->
+
+The river is split into two migratory routes at the confluence of the Hudson River and its largest tributary, the Mohawk River. A total of 28 production units (PUs) are delineated based on locations of 26 dams throughout the watershed. The mainstem (upper Hudson) route includes PUs 1A, 2A, ..., 8A. The Mohawk River route includes PUs 1A, 2B, 3B, ..., 21B. Abundances and carrying capacities are evaluated collectively in any shared PUs after the upstream migration model runs each year. The amount of habitat in each production unit is parameterized as 'shad production'.
+
+<!-- , and the circles in the diagram above are log-proportional to the amount of habitat. -->
+
+Carrying capacity in the Hudson River is based on number of adult spawners per unit surface area of habitat, an approach that is widely used for New England Rivers, but that is also highly uncertain. As in other applications, we assume a carrying capacity of about 100 fish per acre (or 250 fish per ha). Because of the uncertainty associated with these values here and elsewhere, this value is actually drawn from a distribution of values so sensitivity to assumptions can be assessed.
+
+<h3 id="multi"><b>Environmental data</b></h3>
+
+Historical temperature data are compiled from the US Geological Survey gage at Albany, NY (Gage ID <a href="https://waterdata.usgs.gov/ny/nwis/uv?site_no=01359139">01359139</a>). Briefly, these sources include a total of 8 monitoring sites throughout the watershed. These data are used to simulate new annual temperatures using the `simTemperature()` function in `shadia`, for example:
+
+```{r}
+# Simulate new temperatures for a single year
+  newT <- shadia::simTemperature(shadia::tempData_hudson)
+  plot(newT,
+       type='l', lwd = 2, col = 'gray40',
+       ylab=expression(paste('Temperature (', degree, 'C)'))
+       )
+```
+
+See `?shadia::tempData_hudson` in R for more information about the historical temperature data set for this system. Information about simulating new temperatures from existing data can be accessed by typing `?simTemperature` and running in R.
+
+<h3 id="multi"><b>Biological data</b></h3>
+
+The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. These are described in detail in <a href="https://danstich.github.io/stich/pubs/Stich_etal_CJFAS_shadia.pdf">Stich et al. (2019)</a>, in the source files for the R package, and in the help files for each function included. Others processes/parameters are seeded intially and are derived from model observations as emergent patterns thereafter (e.g. percent repeat spawners by age). However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from coastal stock assessments.
+
+<h4 id="multi"><em>American shad</em></h4>
+The maximum age used for simulation in the Mohawk and Hudson rivers is age 9 based on observed fish ages in other New England Rivers. The model is seeded with an initial age-1 abundance of about 0.2 million fish. Growth and marine survival inputs are parameterized using estimates for "Souther iteroparous" populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment and Gilligan (2020). Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters *L*~$\infty$~ and *K* under 'current' SST projected using RCP 8.5 (as of 2020). 
+
+<h4 id="multi"><em>Blueback herring</em></h4>
+Say what?? How exciting! Stay tuned for developments.
+
+<br>

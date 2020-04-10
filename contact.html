@@ -7,12 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>contact.utf8.md</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,6 +82,7 @@ code {
 }
 img {
   max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -243,6 +243,18 @@ $(document).ready(function () {
 }
 </style>
 
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
 <!-- code folding -->
 
 
@@ -315,9 +327,9 @@ $(document).ready(function () {
 <h2 id="multi">
 <b>Contact information</b>
 </h2>
-<p>For general information or questions about use of specific models, please contact me through one of the means below. For software questions, errors, bugs, or any other <code>shadia</code>-specific problems or requests, please use the <a href="https://github.com/danStich/shadia/issues">issues</a> tracker at the <a href="https://github.com/danStich/shadia">GitHub repository</a> so we have records of all requests and any changes to the program.</p>
+<p>For general information or questions about use of specific models, please contact me through one of the means below. For software questions, errors, bugs, or any other <code>shadia</code>-specific problems or requests, please use the <a href="https://github.com/danStich/shadia/issues">issues</a> tracker at the <a href="https://github.com/danStich/shadia">GitHub repository</a> so we have records of all requests and any changes to the program. These models are receiving increasing use as support for federal decision making, so we want everything to be open and transparent!</p>
 <p>Thanks!</p>
-<p>Dan Stich <br> Assistant Professor <br> Biology Department and Biological Field Station <br> State University of New York College at Oneonta <br> Room 113A, Perna Science <br> Oneonta, NY 13820 <br> <strong>p:</strong> 607-436-3734 (campus); 607-547-8778 (BFS) <br> <strong>e:</strong> daniel.stich@oneonta.edu <br> <strong>w:</strong> <a href="https://danstich.github.io/stich/" class="uri">https://danstich.github.io/stich/</a></p>
+<p>Dan Stich <br> Assistant Professor <br> Biology Department and Biological Field Station <br> State University of New York College at Oneonta <br> Room 113A, Perna Science <br> Oneonta, NY 13820 <br> <strong>p:</strong> 607-436-3734 (campus); 607-547-8778 (BFS) <br> <strong>e:</strong> daniel.stich at oneonta.edu <br> <strong>w:</strong> <a href="https://danstich.github.io/stich/" class="uri">https://danstich.github.io/stich/</a></p>
 
 <!DOCTYPE html>
 
@@ -343,23 +355,6 @@ $(document).ready(function () {
 
 
 </script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -3,7 +3,7 @@
 
 <h2 id="multi"><b>Contact information</b></h2>
 
-For general information or questions about use of specific models, please contact me through one of the means below. For software questions, errors, bugs, or any other `shadia`-specific problems or requests, please use the <a href="https://github.com/danStich/shadia/issues">issues</a> tracker at the <a href="https://github.com/danStich/shadia">GitHub repository</a> so we have records of all requests and any changes to the program.
+For general information or questions about use of specific models, please contact me through one of the means below. For software questions, errors, bugs, or any other `shadia`-specific problems or requests, please use the <a href="https://github.com/danStich/shadia/issues">issues</a> tracker at the <a href="https://github.com/danStich/shadia">GitHub repository</a> so we have records of all requests and any changes to the program. These models are receiving increasing use as support for federal decision making, so we want everything to be open and transparent!
 
 Thanks!
 
@@ -14,6 +14,6 @@ State University of New York College at Oneonta <br>
 Room 113A, Perna Science <br>
 Oneonta, NY 13820 <br>
 **p:** 607-436-3734 (campus)\; 607-547-8778 (BFS) <br>
-**e:** daniel.stich\@oneonta.edu <br>
+**e:** daniel.stich at oneonta.edu <br>
 **w:** https://danstich.github.io/stich/
  

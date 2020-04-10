@@ -7,12 +7,11 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
-<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>gettingstarted.utf8.md</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,6 +82,7 @@ code {
 }
 img {
   max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -243,6 +243,18 @@ $(document).ready(function () {
 }
 </style>
 
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
 <!-- code folding -->
 
 
@@ -319,17 +331,18 @@ $(document).ready(function () {
 <h3 id="multi">
 <b>Installation</b>
 </h3>
-<p>This package can be installed with the <a href="https://www.rstudio.com/products/rpackages/devtools/"><code>devtools</code></a> package in R using the repository url: <code>devtools::install_github("danStich/shadia")</code>.</p>
+<p>This package can be installed with the <a href="https://www.rstudio.com/products/rpackages/devtools/"><code>devtools</code></a> package in R using the repository url: <code>devtools::install_github(&quot;danStich/shadia&quot;)</code>.</p>
 <p>To install <code>shadia</code>, you will need to have <code>devtools</code> installed ahead of time in R, but that requires some special tools. To install on <strong>Windows</strong>, you will need to download and install the appropriate version of <a href="https://cran.r-project.org/bin/windows/Rtools/">Rtools</a>. To install on <strong>Mac</strong>, you will need to have the <a href="http://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/">XCode command-line tools</a> installed. And, if running from <strong>Linux</strong>, you will need to install the developer version of R (<code>r-base-dev</code>) if you have not already.</p>
 <h3 id="multi">
 <b>Use</b>
 </h3>
-<p>The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is implemented for the Connecticut, Merrimack, Penobscot, Saco, and Susquehanna rivers, USA, but we are actively adding new rivers. The main package functions, <code>connecticutRiverModel()</code>, <code>kennebecRiverModel()</code>, <code>merrimackRiverModel()</code>, <code>penobscotRiverModel()</code>, <code>sacoRiverModel</code>, and <code>susquehannaRiverModel()</code> can be run without any arguments to estimate population abundance in various reaches or in whole rivers under ‘no dam’ passage scenarios. Alternatively, the user can pass one or more values for upstream and downstream fish passage at a given dam which can then be applied throughout the watershed, or separately at each dam. Outputs include population abundance of spawners in the watersheds, within specific production units of each river, and the proportion of repeat spawners in each age class.</p>
-<p>The models take several (10-30) seconds to run for one iteration on most standard workstations.</p>
+<p>The purpose of this package is to distribute code used to run the American shad dam passage performance standard model. Currently, the model is implemented for the <strong>Connecticut</strong>, <strong>Kennebec</strong>, <strong>Merrimack</strong>, <strong>Mohawk and Hudson</strong>, <strong>Penobscot</strong>, <strong>Saco</strong>, and <strong>Susquehanna</strong> rivers, USA, but we are actively adding new rivers. The main package functions include <code>connecticutRiverModel()</code>, <code>kennebecRiverModel()</code>, <code>merrimackRiverModel()</code>, <code>mohawkHudsonRiverModel()</code>, <code>penobscotRiverModel()</code>, <code>sacoRiverModel()</code>, and <code>susquehannaRiverModel()</code>.</p>
+<p>These models can be run without any arguments to estimate population abundance in specific reaches or in whole rivers under ‘no dam’ passage scenarios. Alternatively, the user can specify upstream and downstream fish passage at dams to simulate populations under different hydropower management scenarios. Timing of upstream passage, fishery, and bycatch mortality can also be defined as deterministic management scenarios or stochastic inputs for all rivers. Outputs include population abundance of spawners in the watersheds, within specific production units of each river, and the proportion of repeat spawners in each age class.</p>
+<p>The models each take several (10-30) seconds to run for one iteration on most standard workstations.</p>
 <h3 id="multi">
 <b>Warning</b>
 </h3>
-<p>Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in <a href="http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI">Stich et al. (2019)</a>. As such, any two model runs might result in substantially different predictions, even under the same passage scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the <code>snowfall</code> package as demonstrated in the help file for each model, which can be accessed by typing <code>?...RiverModel</code> (where ‘<code>...</code>’ is the name of each river in lowercase) in the console and pressing <code>&lt; Enter &gt;</code>.</p>
+<p>Management decisions should not be based on a single model run. The models rely on stochastic inputs for parameterization, as detailed in <a href="http://www.nrcresearchpress.com/doi/10.1139/cjfas-2018-0008#.W2SVohRKgeI">Stich et al. (2019)</a>. As such, any two model runs might result in substantially different predictions, even under the same management scenario. We recommend at least 100 model runs per scenario to provide a minimal characterization of stochasticity, and a cursory understanding of variability in the response(s) of interest. In these cases, we strongly recommend running the model using the <code>snowfall</code> package as demonstrated in the help file for each model, which can be accessed by typing <code>?...RiverModel</code> (where ‘<code>...</code>’ is the name of each river in lowercase) in the console and pressing <code>&lt; Enter &gt;</code>.</p>
 <p></br></p>
 
 <!DOCTYPE html>
@@ -356,23 +369,6 @@ $(document).ready(function () {
 
 
 </script>
-
-<!-- tabsets -->
-
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
-<!-- code folding -->
-
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
