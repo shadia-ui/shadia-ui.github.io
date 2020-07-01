@@ -7,8 +7,6 @@
 
 The purpose of this page is to provide a general overview of the Mohawk-Hudson River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.
 
-<b>This model is currently implemented for American shad and blueback herring.</b>
-
 <h3 id="multi"><b>Habitat definitions</b></h3>
 
 The Mohawk-Hudson River Model includes American shad habitat from the Hudson River estuary upstream to Rome, NY in the Mohawk River and upstream to Hudson Falls, NY in the mainstem Hudson River.
