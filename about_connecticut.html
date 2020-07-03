@@ -406,11 +406,11 @@ $(document).ready(function () {
 <h2 id="multi">
 <b>Overview of <code>connecticutRiverModel()</code></b>
 </h2>
-<p>The purpose of this page is to provide a general overview of the Connecticut River dam passage performance standard model for American shad. If you are looking for examples, please check <a href="examples.html">here</a>.</p>
+<p>The purpose of this page is to provide a general overview of the Connecticut River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.</p>
 <h3 id="multi">
 <b>Habitat definitions</b>
 </h3>
-<p>The Connecticut River Model includes American shad habitat from the head of tide upstream to Bellows Falls. Hydro projects that can be assessed include Holyoke Dam, the Turner’s Falls project (Cabot Station, Spillway, and Gatehouse), and Vernon Dam. The user can also specify the probability that fish use the Spillway for migration through the Turner’s Falls project as a management scenario to determine the sensitivity of population dynamics to passage through Cabot Station and the canal on the east side of the project. The model also incorporates survival probabilities for adults and juveniles at the Northfield Mountain Pumped Power Storage Facility (NMPS).</p>
+<p>The Connecticut River Model includes American shad and blueback herring habitat from the head of tide upstream to Bellows Falls. Hydro projects that can be assessed include Holyoke Dam, the Turner’s Falls project (Cabot Station, Spillway, and Gatehouse), and Vernon Dam. The user can also specify the probability that fish use the Spillway for migration through the Turner’s Falls project as a management scenario to determine the sensitivity of population dynamics to passage through Cabot Station and the canal on the east side of the project. The model also incorporates survival probabilities for adults and juveniles at the Northfield Mountain Pumped Power Storage Facility (NMPS).</p>
 <p><img id="multi" src="images/connecticut.png" alt="Connecticut River model schematic showing dams, migration routes, and production units"></p>
 <p>The river is split into two migratory routes based on passage through the Turner’s Falls project. A total of five production units (PUs) are delineated based on dam locations in each route. The spillway route includes PUs I, II, IV, and V, whereas the Cabot Station route includes all five production units. Abundances and carrying capacities are evaluated collectively after the upstream migration model, and all fish move downstream through the Cabot Station route as indicated by fishery managers in this system. The amount of habitat in each production unit is parameterized as ‘surface hectares’, and the circles in the diagram above are log-proportional to the amount of habitat. The only exception is in PU III (the canal), because it is not considered in production due to seasonal operations, suitability for spawning, and survival of fish that remain.</p>
 <p>Carrying capacity in the Connecticut River is based on number of adult spawners per unit surface area of habitat, an approach that is widely used for New England Rivers, but that is also highly uncertain. As in other applications, we assume a carrying capacity of about 100 fish per acre (or 200 fish per ha). Because of the uncertainty associated with these values here and elsewhere, this value is actually drawn from a distribution of values so sensitivity to assumptions can be assessed.</p>
@@ -429,8 +429,15 @@ $(document).ready(function () {
 <h3 id="multi">
 <b>Biological data</b>
 </h3>
+<h4 id="multi">
+<em>American shad</em>
+</h4>
 <p>The majority of biological data and behavioral processes in <code>shadia</code> are conserved between systems to standardize the approach. Othes are seeded intially and are derived from model observations as emergent patterns thereafter. However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based ‘<code>region</code>s’ used to parameterize size at age and marine survival rates from coastal stock assessments.</p>
 <p>The maximum age used for simulation in the Connecticut River is age 8 based on observed fish ages in recent years. The model is seeded with an initial age-1 abundance of about 2 million fish. Growth and marine survival inputs are parameterized using estimates for <code>Northern iteroparous</code> populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters L<sub><span class="math inline">\(\infty\)</span></sub> and <em>K</em>. Marine survival and growth parameters may be projected under either RCP4.5 or RCP8.5 depending on climate scenario selected. If the default (<code>current</code>) is selected, then growth parameters will be projected based on RCP8.5 (“business-as-usual”) climate scenario. All projected SST are for the Northeast Continental Shelf Large Marine Ecosystem.</p>
+<h4 id="multi">
+<em>Blueback herring</em>
+</h4>
+<p>All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).</p>
 <p><br></p>
 
 <!DOCTYPE html>
@@ -439,7 +446,7 @@ $(document).ready(function () {
 
 <hr>
 
-<p style="color:gray; text-align:center">This work is licensed under a <a href="https://www.gnu.org/licenses/gpl.txt">GNU General Public License v 3.0</a>.</p>
+<p style="color:gray; text-align:center">This work is licensed under a <a href= "https://github.com/shadia-ui/shadia-ui.github.io/blob/master/LICENSE"> Creative Commons 4.0 International License</a>.</p>
 
 
 

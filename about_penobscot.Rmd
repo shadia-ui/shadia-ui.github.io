@@ -5,11 +5,11 @@
 
 <h2 id="multi"><b>Overview of `penobscotRiverModel()`</b></h2>
 
-The purpose of this page is to provide a general overview of the Penobscot River dam passage performance standard model for American shad. If you are looking for examples, please check <a href="examples.html">here</a>.
+The purpose of this page is to provide a general overview of the Penobscot River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.
 
 <h3 id="multi"><b>Habitat definitions</b></h3>
 
-The Penobscot River Model includes American shad habitat from the Penobscot River estuary upstream to Abbot, ME in the Piscataquis River and upstream of Weldon (Mattaceunk) Dam in the mainstem Penobscot River. The model currently incorporates facets of upstream and downstream migration through an alternative migration route, the Stillwater Branch, in the lower main-stem of the river. Fish attempting to use the Stillwater Branch are collected at Orono Dam, and "trucked" upstream of Milford Dam in the model. Upstream and downstream probabilities for using the Stillwater Branch for migration are randomly drawn from distributions based on migration of other species in the river. Probability of using the Piscataquis River is based on proportion of habitat upstream of Howland and West Enfield dams.
+The Penobscot River Model includes American shad and blueback herring habitat from the Penobscot River estuary upstream to Abbot, ME in the Piscataquis River and upstream of Weldon (Mattaceunk) Dam in the mainstem Penobscot River. The model currently incorporates facets of upstream and downstream migration through an alternative migration route, the Stillwater Branch, in the lower main-stem of the river. Fish attempting to use the Stillwater Branch are collected at Orono Dam, and "trucked" upstream of Milford Dam in the model. Upstream and downstream probabilities for using the Stillwater Branch for migration are randomly drawn from distributions based on migration of other species in the river. Probability of using the Piscataquis River is based on proportion of habitat upstream of Howland and West Enfield dams.
 
 Hydro projects that can be assessed for upstream passage in this model include Milford, West Enfield, and Weldon dams in the main-stem, and Howland, Browns Mill, Moosehead, and Guilford dams in the Piscataquis River. Downstream passage can be assessed at each of these dams, as well as Stillwater and Orono dams in the Stillwater Branch. The former site of Veazie Dam is included in the source code for the model for historical comparisons, but is not currently implemented because the dam was removed in 2013.
 
@@ -36,8 +36,12 @@ See `?shadia::tempData` in R for more information about the historical temperatu
 
 <h3 id="multi"><b>Biological data</b></h3>
 
+<h4 id="multi"><em>American shad</em></h4>
 The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. Othes are seeded intially and are derived from model observations as emergent patterns thereafter (e.g. proportion of repeat spawners). However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from growth parameters estimated as part of stock assessment.
 
 The maximum age used for simulation in the Penobscot River is age 9 based on empirical data from the Penobscot River. The model is seeded with an initial age-1 abundance of about 0.2 million fish. Growth and marine survival inputs are parameterized using estimates for "northern iteroparous" populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters *L*~$\infty$~ and *K*. Marine survival and growth parameters are projected under RCP8.5 for this system using SST from the Northeast Continental Shelf Large Marine Ecosystem.
+
+<h4 id="multi"><em>Blueback herring</em></h4>
+All species-specific biological inputs for blueback herring in the Penobscot River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).
 
 <br>

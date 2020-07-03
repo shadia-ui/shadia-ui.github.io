@@ -5,13 +5,13 @@
 
 <h2 id="multi"><b>Overview of `susquehannaRiverModel()`</b></h2>
 
-The purpose of this page is to provide a general overview of the Susquehanna River dam passage performance standard model for American shad. If you are looking for examples, please check <a href="examples.html">here</a>.
+The purpose of this page is to provide a general overview of the Susquehanna River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.
 
 <h3 id="multi"><b>Habitat definitions</b></h3>
 
-The Susquehanna River Model includes American shad habitat from the Mouth of the Susquehanna River at the Chesapeake Bay. The model currently incorporates upstream passage into the Juniata River (i), the West Branch (ii), the Chemung River (iii), and the North Branch of the Susquehanna River (iv). Upstream and downstream probabilities for using the Stillwater Branch for migration are randomly drawn from distributions based on migration of other species in the river. Probability of using the Piscataquis River is based on proportion of habitat upstream of Howland and West Enfield dams.
+The Susquehanna River Model includes American shad and blueback herring habitat from the Mouth of the Susquehanna River at the Chesapeake Bay. The model currently incorporates upstream passage into the Juniata River (i), the West Branch (ii), the Chemung River (iii), and the North Branch of the Susquehanna River (iv). Upstream and downstream probabilities for using the Stillwater Branch for migration are randomly drawn from distributions based on migration of other species in the river. Probability of using the Piscataquis River is based on proportion of habitat upstream of Howland and West Enfield dams.
 
-Hydro projects that can be assessed for upstream passage in this model include 
+Hydro projects that can be assessed for upstream passage in this model include: 
 
 <img id="multi" src="images/susquehanna.png" alt="Susquehanna River model schematic showing dams, migration routes, and production units" width=500em>
 
@@ -36,8 +36,12 @@ See `?shadia::tempData_susquehanna` in R for more information about the historic
 
 <h3 id="multi"><b>Biological data</b></h3>
 
+<h2 id="multi"><em>American shad</em></h2>
 The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. Othes are seeded intially and are derived from model observations as emergent patterns thereafter (e.g. proportion of repeat spawners). However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from growth parameters estimated as part of stock assessment.
 
 The maximum age used for simulation in the Susquehanna River is 11 years based on empirical data from the upper Chesapeake Bay. The model is seeded with an initial age-1 abundance of about 0.2 million fish. Growth and marine survival inputs are parameterized using estimates for "southern iteroparous" populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters *L*~$\infty$~ and *K*. Marine survival and growth parameters are projected under RCP8.5 for this system using SST from the Northeast Continental Shelf Large Marine Ecosystem.
+
+<h2 id="multi"><em>Blueback herring</em></h2>
+All species-specific biological inputs for blueback herring in the Susquehanna River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).
 
 <br>

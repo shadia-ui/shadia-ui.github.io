@@ -5,11 +5,11 @@
 
 <h2 id="multi"><b>Overview of `connecticutRiverModel()`</b></h2>
 
-The purpose of this page is to provide a general overview of the Connecticut River dam passage performance standard model for American shad. If you are looking for examples, please check <a href="examples.html">here</a>.
+The purpose of this page is to provide a general overview of the Connecticut River dam passage performance standard model for American shad and blueback herring. If you are looking for examples, please check <a href="examples.html">here</a>.
 
 <h3 id="multi"><b>Habitat definitions</b></h3>
 
-The Connecticut River Model includes American shad habitat from the head of tide upstream to Bellows Falls. Hydro projects that can be assessed include Holyoke Dam, the Turner's Falls project (Cabot Station, Spillway, and Gatehouse), and Vernon Dam. The user can also specify the probability that fish use the Spillway for migration through the Turner's Falls project as a management scenario to determine the sensitivity of population dynamics to passage through Cabot Station and the canal on the east side of the project. The model also incorporates survival probabilities for adults and juveniles at the Northfield Mountain Pumped Power Storage Facility (NMPS).
+The Connecticut River Model includes American shad and blueback herring habitat from the head of tide upstream to Bellows Falls. Hydro projects that can be assessed include Holyoke Dam, the Turner's Falls project (Cabot Station, Spillway, and Gatehouse), and Vernon Dam. The user can also specify the probability that fish use the Spillway for migration through the Turner's Falls project as a management scenario to determine the sensitivity of population dynamics to passage through Cabot Station and the canal on the east side of the project. The model also incorporates survival probabilities for adults and juveniles at the Northfield Mountain Pumped Power Storage Facility (NMPS).
 
 <img id="multi" src="images/connecticut.png" alt="Connecticut River model schematic showing dams, migration routes, and production units">
 
@@ -34,8 +34,12 @@ See `?shadia::tempD` or `?shadia::tempData_connecticut` in R for more informatio
 
 <h3 id="multi"><b>Biological data</b></h3>
 
+<h4 id="multi"><em>American shad</em></h4>
 The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. Othes are seeded intially and are derived from model observations as emergent patterns thereafter. However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from coastal stock assessments.
 
 The maximum age used for simulation in the Connecticut River is age 8 based on observed fish ages in recent years. The model is seeded with an initial age-1 abundance of about 2 million fish. Growth and marine survival inputs are parameterized using estimates for `Northern iteroparous` populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters L~$\infty$~ and *K*. Marine survival and growth parameters may be projected under either RCP4.5 or RCP8.5 depending on climate scenario selected. If the default (`current`) is selected, then growth parameters will be projected based on RCP8.5 ("business-as-usual") climate scenario. All projected SST are for the Northeast Continental Shelf Large Marine Ecosystem.
+
+<h4 id="multi"><em>Blueback herring</em></h4>
+All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).
 
 <br>
