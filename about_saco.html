@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>about_saco.utf8.md</title>
+<title>about_saco.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +20,7 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!DOCTYPE html>
@@ -40,9 +40,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -52,14 +52,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -68,9 +70,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  { background-color: #f8f8f8; }
+  {  background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -321,6 +323,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -418,13 +421,18 @@ $(document).ready(function () {
 <h3 id="multi">
 <b>Environmental data</b>
 </h3>
-<p>Historical temperature data are compiled from the U.S. Geological gauge at Bartlett, NH (ID 010642505) 2009-2019. Because this gauge station is far upstream from much of the American shad habitat in this system, water temperatures are colder than might be expected. We are currently seeking alternative data. These data are used to simulate new annual temperatures using the <code>simTemperature()</code> function in <code>shadia</code>, for example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Simulate new temperatures for a single year</span></a>
-<a class="sourceLine" id="cb1-2" title="2">  newT &lt;-<span class="st"> </span>shadia<span class="op">::</span><span class="kw">simTemperature</span>(shadia<span class="op">::</span>tempData_saco)</a>
-<a class="sourceLine" id="cb1-3" title="3">  <span class="kw">plot</span>(newT,</a>
-<a class="sourceLine" id="cb1-4" title="4">       <span class="dt">type=</span><span class="st">&#39;l&#39;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&#39;gray40&#39;</span>,</a>
-<a class="sourceLine" id="cb1-5" title="5">       <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&#39;Temperature (&#39;</span>, degree, <span class="st">&#39;C)&#39;</span>))</a>
-<a class="sourceLine" id="cb1-6" title="6">       )</a></code></pre></div>
+<p>Historical temperature data are compiled from the U.S. Geological gauge at Bartlett, NH (ID 010642505) 2009-2019 in addition to stream temperature data from the SHEDS database. These data are used to simulate new daily temperatures using the <code>simTemperature()</code> function in <code>shadia</code>, for example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(shadia)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Simulate new temperatures for a single year</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>  newT &lt;-<span class="st"> </span><span class="kw">simTemperature</span>(<span class="kw">setUpTemperatureData</span>(<span class="dt">river =</span> <span class="st">&quot;saco&quot;</span>))</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Plot the result</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="kw">ggplot</span>(newT, <span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> val)) <span class="op">+</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&#39;Temperature (&#39;</span>, degree, <span class="st">&#39;C)&#39;</span>))) <span class="op">+</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Day of year&quot;</span>)</span></code></pre></div>
 <p><img src="about_saco_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>See <code>?shadia::tempData_saco</code> in R for more information about the historical temperature data set for this system. Information about simulating new temperatures from existing data can be accessed by typing <code>?shadia::simTemperature</code> and running in R.</p>
 <h3 id="multi">
@@ -438,8 +446,7 @@ $(document).ready(function () {
 <h4 id="multi">
 <em>Blueback herring</em>
 </h4>
-<p>All species-specific biological inputs for blueback herring in the Saco River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).</p>
-<p><br></p>
+<p>All species-specific biological inputs for blueback herring in the Saco River model are identical to those used in the <a href="about_kennebec.html">Kennebec River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers. <br></p>
 
 <!DOCTYPE html>
 

@@ -27,13 +27,19 @@ Carrying capacity in the Hudson River is based on number of adult spawners per u
 
 Historical temperature data are compiled from the US Geological Survey gage at Albany, NY (Gage ID <a href="https://waterdata.usgs.gov/ny/nwis/uv?site_no=01359139">01359139</a>). Briefly, these sources include a total of 8 monitoring sites throughout the watershed. These data are used to simulate new daily temperatures using the `simTemperature()` function in `shadia`, for example:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
+library(shadia)
+library(ggplot2)
+
 # Simulate new temperatures for a single year
-  newT <- shadia::simTemperature(shadia::tempData_hudson)
-  plot(newT,
-       type='l', lwd = 2, col = 'gray40',
-       ylab=expression(paste('Temperature (', degree, 'C)'))
-       )
+  newT <- simTemperature(setUpTemperatureData(river = "hudson"))
+
+# Plot the result
+  ggplot(newT, aes(x = day, y = val)) +
+    geom_line() +
+    ylab(expression(paste('Temperature (', degree, 'C)'))) +
+    xlab("Day of year")
+  
 ```
 
 See `?shadia::tempData_hudson` in R for more information about the historical temperature data set for this system. Information about simulating new temperatures from existing data can be accessed by typing `?simTemperature` and running in R.
@@ -56,7 +62,7 @@ Species-specific life-history inputs from blueback herring in the Hudson River i
 
 <b>Probabilty of being a repeat spawner</b> at age was parameterized for ages 1-12 as: 0.000, 0.000, 0.004, 0.208, 0.674, 1.000, 1.000, 1.000, 1.000, 1.000, 1.000, and 1.000. 
 
-<b>Parameters of the von Bertalanffy growth function (VBGF)</b> were estimated from `age` and `length` data contained in the built-in data set `hudson_blueback`. Three VBGFs were fit using Bayesian hierarchical models in Stan software. These included sex-aggregate, male-only, and female-only models. The full posteriors for log-scale parameters `Linf`, `K`, and `t0` are stored in `vbgf_hudson_agg`, `vbgf_hudson_m`, and `vbgf_hudson_f`. A description of the estimates can be accessed in R by typing `?vbgf_hudson_...` in the console and running, where `...` should be replaced by `agg`, `m`, or `f`. Sex-specific lengths of simulated fish are drawn for each fish in each year by sampling one set of correlated VBGF parameters from the appropriate posterior to incorporate these corelations and avoid nonsensical pairing of simulated VBGF parameters. 
+<b>Parameters of the von Bertalanffy growth function (VBGF)</b> were estimated from `age` and `length` data contained in the built-in data set `hudson_blueback`. Three VBGFs were fit using Bayesian hierarchical models in Stan software using Rstan. These included sex-aggregate, male-only, and female-only models. The full posteriors for log-scale parameters `Linf`, `K`, and `t0` are stored in `vbgf_hudson_agg`, `vbgf_hudson_m`, and `vbgf_hudson_f`. A description of the estimates can be accessed in R by typing `?vbgf_hudson_...` in the console and running, where `...` should be replaced by `agg`, `m`, or `f`. Sex-specific lengths of simulated fish are drawn for each fish in each year by sampling one set of correlated VBGF parameters from the appropriate posterior to incorporate these corelations and avoid nonsensical pairing of simulated VBGF parameters. 
 
 <b>Natural mortality (*M*)</b> is estimated on a per-simulation basis (not per-year) from the sex-aggregated VBGF parameters using the modification of <a href = "https://academic.oup.com/icesjms/article-abstract/39/2/175/647984">Pauly (1980)</a> recommended by <a href = "https://academic.oup.com/icesjms/article/72/1/82/2804320">Then et al. (2015)</a> when virgin maximum age of a stock is unknown.
 

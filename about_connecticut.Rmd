@@ -19,15 +19,20 @@ Carrying capacity in the Connecticut River is based on number of adult spawners 
 
 <h3 id="multi"><b>Environmental data</b></h3>
 
-Historical temperature data have been collected from various locations in the Connecticut River watershed. Briefly, these sources include: 1) the U.S. Geological Survey (USGS) gauge in Stratford, NH (`shadia::tempD()`), and 2) temperature data from Turner's Falls provided by the USGS S.O. Conte Anadromous Fish Lab (`shadia::tempData_connecticut()`). Additionally, `connecticutRiverModel()` is the only model that currently includes daily, in-river climate projections for RCP4.5 and RCP8.5 climate forcings from the Gulf of Maine Research institute. These data can be used to simulate populations under various `climate` scenarios and explore population responses to climate in isolation or in addition to dam impacts and fishing mortality sources. Any of these data can be used to simulate new annual temperatures through the `simTemperature()` function in `shadia`, for example:
+Historical temperature data have been collected from various locations in the Connecticut River watershed. Briefly, these sources include: 1) the U.S. Geological Survey (USGS) gauge in Stratford, NH (`shadia::tempD()`), and 2) temperature data from Turner's Falls provided by the USGS S.O. Conte Anadromous Fish Lab (`shadia::tempData_connecticut()`). Additionally, `connecticutRiverModel()` is the only model that currently includes daily, in-river climate projections for RCP4.5 and RCP8.5 climate forcings from the Gulf of Maine Research institute. These data can be used to simulate populations under various `climate` scenarios and explore population responses to climate in isolation or in addition to dam impacts and fishing mortality sources. Any of these data can be used to simulate new daily temperatures through the `simTemperature()` function in `shadia`, for example:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
+library(shadia)
+library(ggplot2)
+
 # Simulate new temperatures for a single year
-  newT <- shadia::simTemperature(shadia::tempData_connecticut)
-  plot(newT,
-       type='l', lwd = 2, col = 'gray40',
-       ylab=expression(paste('Temperature (', degree, 'C)'))
-       )
+  newT <- simTemperature(setUpTemperatureData(river = "connecticut"))
+
+# Plot the result
+  ggplot(newT, aes(x = day, y = val)) +
+    geom_line() +
+    ylab(expression(paste('Temperature (', degree, 'C)'))) +
+    xlab("Day of year")
 ```
 
 See `?shadia::tempD` or `?shadia::tempData_connecticut` in R for more information about historical temperature data sets. Information about forecasted daily river temperatures under climate scenarios can be accessed by running `?shadia::ctr_proj45` and `?shadia::ctr_proj45` in R. Information about simulating new temperatures from existing data can be accessed by typing `?simTemperature()` and running in R.
@@ -40,6 +45,6 @@ The majority of biological data and behavioral processes in `shadia` are conserv
 The maximum age used for simulation in the Connecticut River is age 8 based on observed fish ages in recent years. The model is seeded with an initial age-1 abundance of about 2 million fish. Growth and marine survival inputs are parameterized using estimates for `Northern iteroparous` populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters L~$\infty$~ and *K*. Marine survival and growth parameters may be projected under either RCP4.5 or RCP8.5 depending on climate scenario selected. If the default (`current`) is selected, then growth parameters will be projected based on RCP8.5 ("business-as-usual") climate scenario. All projected SST are for the Northeast Continental Shelf Large Marine Ecosystem.
 
 <h4 id="multi"><em>Blueback herring</em></h4>
-All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).
+All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers.
 
 <br>

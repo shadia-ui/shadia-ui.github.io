@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
-<title>about_connecticut.utf8.md</title>
+<title>about_connecticut.utf8</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,6 +20,7 @@
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <!DOCTYPE html>
@@ -40,9 +40,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -52,14 +52,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -68,9 +70,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  { background-color: #f8f8f8; }
+  {  background-color: #f8f8f8; }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ef2929; } /* Alert */
 code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
@@ -321,6 +323,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -417,13 +420,18 @@ $(document).ready(function () {
 <h3 id="multi">
 <b>Environmental data</b>
 </h3>
-<p>Historical temperature data have been collected from various locations in the Connecticut River watershed. Briefly, these sources include: 1) the U.S. Geological Survey (USGS) gauge in Stratford, NH (<code>shadia::tempD()</code>), and 2) temperature data from Turner’s Falls provided by the USGS S.O. Conte Anadromous Fish Lab (<code>shadia::tempData_connecticut()</code>). Additionally, <code>connecticutRiverModel()</code> is the only model that currently includes daily, in-river climate projections for RCP4.5 and RCP8.5 climate forcings from the Gulf of Maine Research institute. These data can be used to simulate populations under various <code>climate</code> scenarios and explore population responses to climate in isolation or in addition to dam impacts and fishing mortality sources. Any of these data can be used to simulate new annual temperatures through the <code>simTemperature()</code> function in <code>shadia</code>, for example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># Simulate new temperatures for a single year</span></a>
-<a class="sourceLine" id="cb1-2" title="2">  newT &lt;-<span class="st"> </span>shadia<span class="op">::</span><span class="kw">simTemperature</span>(shadia<span class="op">::</span>tempData_connecticut)</a>
-<a class="sourceLine" id="cb1-3" title="3">  <span class="kw">plot</span>(newT,</a>
-<a class="sourceLine" id="cb1-4" title="4">       <span class="dt">type=</span><span class="st">&#39;l&#39;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&#39;gray40&#39;</span>,</a>
-<a class="sourceLine" id="cb1-5" title="5">       <span class="dt">ylab=</span><span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&#39;Temperature (&#39;</span>, degree, <span class="st">&#39;C)&#39;</span>))</a>
-<a class="sourceLine" id="cb1-6" title="6">       )</a></code></pre></div>
+<p>Historical temperature data have been collected from various locations in the Connecticut River watershed. Briefly, these sources include: 1) the U.S. Geological Survey (USGS) gauge in Stratford, NH (<code>shadia::tempD()</code>), and 2) temperature data from Turner’s Falls provided by the USGS S.O. Conte Anadromous Fish Lab (<code>shadia::tempData_connecticut()</code>). Additionally, <code>connecticutRiverModel()</code> is the only model that currently includes daily, in-river climate projections for RCP4.5 and RCP8.5 climate forcings from the Gulf of Maine Research institute. These data can be used to simulate populations under various <code>climate</code> scenarios and explore population responses to climate in isolation or in addition to dam impacts and fishing mortality sources. Any of these data can be used to simulate new daily temperatures through the <code>simTemperature()</code> function in <code>shadia</code>, for example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(shadia)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Simulate new temperatures for a single year</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>  newT &lt;-<span class="st"> </span><span class="kw">simTemperature</span>(<span class="kw">setUpTemperatureData</span>(<span class="dt">river =</span> <span class="st">&quot;connecticut&quot;</span>))</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># Plot the result</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="kw">ggplot</span>(newT, <span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> val)) <span class="op">+</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="st">    </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="kw">expression</span>(<span class="kw">paste</span>(<span class="st">&#39;Temperature (&#39;</span>, degree, <span class="st">&#39;C)&#39;</span>))) <span class="op">+</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Day of year&quot;</span>)</span></code></pre></div>
 <p><img src="about_connecticut_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>See <code>?shadia::tempD</code> or <code>?shadia::tempData_connecticut</code> in R for more information about historical temperature data sets. Information about forecasted daily river temperatures under climate scenarios can be accessed by running <code>?shadia::ctr_proj45</code> and <code>?shadia::ctr_proj45</code> in R. Information about simulating new temperatures from existing data can be accessed by typing <code>?simTemperature()</code> and running in R.</p>
 <h3 id="multi">
@@ -437,7 +445,7 @@ $(document).ready(function () {
 <h4 id="multi">
 <em>Blueback herring</em>
 </h4>
-<p>All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).</p>
+<p>All species-specific biological inputs for blueback herring in the Connecticut River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers.</p>
 <p><br></p>
 
 <!DOCTYPE html>

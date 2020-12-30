@@ -21,15 +21,20 @@ Carrying capacity in the Saco River is based on number of adult spawners per uni
 
 <h3 id="multi"><b>Environmental data</b></h3>
 
-Historical temperature data are compiled from the U.S. Geological gauge at Bartlett, NH (ID 010642505) 2009-2019. Because this gauge station is far upstream from much of the American shad habitat in this system, water temperatures are colder than might be expected. We are currently seeking alternative data. These data are used to simulate new annual temperatures using the `simTemperature()` function in `shadia`, for example:
+Historical temperature data are compiled from the U.S. Geological gauge at Bartlett, NH (ID 010642505) 2009-2019 in addition to stream temperature data from the SHEDS database. These data are used to simulate new daily temperatures using the `simTemperature()` function in `shadia`, for example:
 
-```{r}
+```{r, warning = FALSE, message = FALSE}
+library(shadia)
+library(ggplot2)
+
 # Simulate new temperatures for a single year
-  newT <- shadia::simTemperature(shadia::tempData_saco)
-  plot(newT,
-       type='l', lwd = 2, col = 'gray40',
-       ylab=expression(paste('Temperature (', degree, 'C)'))
-       )
+  newT <- simTemperature(setUpTemperatureData(river = "saco"))
+
+# Plot the result
+  ggplot(newT, aes(x = day, y = val)) +
+    geom_line() +
+    ylab(expression(paste('Temperature (', degree, 'C)'))) +
+    xlab("Day of year")
 ```
 
 See `?shadia::tempData_saco` in R for more information about the historical temperature data set for this system. Information about simulating new temperatures from existing data can be accessed by typing `?shadia::simTemperature` and running in R.
@@ -42,6 +47,5 @@ The majority of biological data and behavioral processes in `shadia` are conserv
 The maximum age used for simulation in the Saco River is age 9 based on empirical data from other New England Rivers. The model is seeded with an initial age-1 abundance of about 0.2 million fish. Growth and marine survival inputs are parameterized using estimates for "northern iteroparous" populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters *L*~$\infty$~ and *K*. Marine survival and growth parameters are projected under RCP8.5 for this system using SST from the Northeast Continental Shelf Large Marine Ecosystem.
 
 <h4 id="multi"><em>Blueback herring</em></h4>
-All species-specific biological inputs for blueback herring in the Saco River model are identical to those used in the <a href="about_mohawkHudson.html">Mohawk-Hudson River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers (optimistically hopeful ETA for system-specific data is December 31, 2020).
-
+All species-specific biological inputs for blueback herring in the Saco River model are identical to those used in the <a href="about_kennebec.html">Kennebec River model</a> for now. We are working to update these inputs for each river with regional fish biologists and managers.
 <br>
