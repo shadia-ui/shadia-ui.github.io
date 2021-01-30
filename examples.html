@@ -322,7 +322,8 @@ $(document).ready(function () {
 <b>No Passage and No Dams scenarios</b>
 </h2>
 <p>These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the <code>sens</code> object of the output list for each of the river models when <code>sensitivity = TRUE</code>.</p>
-<p><a href = "examples/no_passage.html">No Passage</a> example using <code>penobscotRiverModel()</code>. <br> <a href = "examples/no_dams.html">No Dams</a> example using <code>penobscotRiverModel()</code>.</p>
+<p><a href = "examples/no_passage.html"><strong>No Passage</strong></a> example using <code>penobscotRiverModel()</code>. These simulations are most useful for establishing assumed baseline condition in the absence of fish passage.<br></p>
+<p><a href = "examples/no_dams.html"><strong>No Dams</strong></a> example using <code>penobscotRiverModel()</code>. These simulations are most useful for establishing assumed baseline condition in the absence of dams.</p>
 <h2 id="multi">
 <b>Variable passage (watershed-wide standards)</b>
 </h2>
@@ -330,7 +331,7 @@ $(document).ready(function () {
 <p><a href = "examples/variable_mhr.html"><strong>Variable passage with random sampling</strong></a> example using <code>mohawkHudsonRiverModel()</code>. These simulations are most useful when a wide range of un-coupled upstream and downstream passage efficiencies or upstream <code>timing</code> are being crossed for comparison. From a management context, they are most useful if treating passage standards as being fixed among dams or establishing baselines for passage needs relative to management objectives.<br></p>
 <p><a href = "examples/variable_mhr.html"><strong>Fixed passage combinations</strong></a> example using <code>mohawkHudsonRiverModel()</code> and fixed combinations of passage values that are randomly sampled from a matrix or dataframe of paired passage values <code>watershed = TRUE</code>. These simulations are most useful when only a limited number of passage combinations are being considered. From the management context, these they are most useful given assumptions in the example <em>and</em> a small number of scenarios are being considered to fine-tune over a small range of values identified through precedent or exploratory runs such as those described in the previous example.<br></p>
 <h2 id="multi">
-<b>Variable passage (watershed-wide standards)</b>
+<b>Variable passage (dam-specific standards)</b>
 </h2>
 <p>This section will eventually have examples of single-dam investigations.</p>
 <p></br></p>

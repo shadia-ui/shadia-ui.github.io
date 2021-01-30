@@ -12,8 +12,9 @@ If you have specific examples you would like to see, please suggest them using t
 
 These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models when `sensitivity = TRUE`.
 
-<a href = "examples/no_passage.html">No Passage</a> example using `penobscotRiverModel()`. <br>
-<a href = "examples/no_dams.html">No Dams</a> example using `penobscotRiverModel()`.
+<a href = "examples/no_passage.html">**No Passage**</a> example using `penobscotRiverModel()`. These simulations are most useful for establishing assumed baseline condition in the absence of fish passage.<br>
+
+<a href = "examples/no_dams.html">**No Dams**</a> example using `penobscotRiverModel()`. These simulations are most useful for establishing assumed baseline condition in the absence of dams.
 
 
 <h2 id="multi"><b>Variable passage (watershed-wide standards)</b></h2>
@@ -23,7 +24,7 @@ This section contains parallel simulation code, basic results summaries, and som
 
 <a href = "examples/variable_mhr.html">**Fixed passage combinations**</a> example using `mohawkHudsonRiverModel()` and fixed combinations of passage values that are randomly sampled from a matrix or dataframe of paired passage values `watershed = TRUE`. These simulations are most useful when only a limited number of passage combinations are being considered. From the management context, these they are most useful given assumptions in the example *and* a small number of scenarios are being considered to fine-tune over a small range of values identified through precedent or exploratory runs such as those described in the previous example.<br>
 
-<h2 id="multi"><b>Variable passage (watershed-wide standards)</b></h2>
+<h2 id="multi"><b>Variable passage (dam-specific standards)</b></h2>
 This section will eventually have examples of single-dam investigations.
 
 </br>
