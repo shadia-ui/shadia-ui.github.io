@@ -5,59 +5,57 @@
 
 Each of the models in `shadia` can be run under the "no passage" scenario. In other words, by specifying upstream passage probabilities of 0 at the lowermost dam(s) in a given river, the user can simulate a scenario in which there is no fish passage at these or any subsequent dams.
 
-This is easily achieved for any of the models by modifying the default value for the first dam in the system, but can also be done on a dam-by-dam basis.
+This is easily achieved for any of the models by modifying the default value for the first dam in the system using `watershed = TRUE`, but can also be done in systems with a single lowermost dam with the default `watershed = FALSE`. The former is recommended to reduce output size and increase speed.
 
 Here is an example using the Penobscot River, with all other user-specified arguments set to their default values:
-```{r, eval=FALSE}
+```{r, warning = FALSE, message = FALSE}
+# Load shadia
+library(shadia)
+
 # Run the model without passage at any of the dams
-nopass <- penobscotRiverModel(
+no_pass <- penobscotRiverModel(
+  nYears = 20,
   upstream = list(milford = 0,
                   howland = 1,
                   westEnfield = 1,
                   brownsMill = 1,
                   moosehead = 1,
                   guilford = 1,
-                  weldon = 1)
+                  weldon = 1),
+  watershed = TRUE
   )  
-```
 
-```{r, eval=TRUE, echo=FALSE}
-# Load previously run results - not shown in rmd output
-load(file="no_pass.rda")
 ```
 
 We could then get the output and plot our result. Of course, this is only a single run, so your results may be very different from what is shown here.
 
 ```{r}
-result = nopass$res
-
-plot(x = result$year, y = result$populationSize,
-     type = 'l', lwd=2, col = 'red', xlab='Year',
-     ylab='Spawner abundance')
+library(ggplot2)
+ggplot(no_pass, aes(x = year, y = populationSize)) + geom_line()
 ```
 
-The above example would run the model a single time for the default number of years (50, in the case of `penobscotRiverModel()`). If we wanted to do this several hundred times to get outputs that are robust to variability in the input distributions, then we could wrap the call above in a snowfall script.
+If we wanted to do this several hundred times to get outputs that are robust to variability in the input distributions, then we could wrap the call above in a snowfall script.
 
-This might look something like:
+This might look something like the following (here we use `nYears = 20` and `niterations = 10`, along with default output options such as `spatially_explicit_output = FALSE` and `watershed = TRUE` for sake of speed). All passage efficiencies are set to their default value of 1 (100% chance of passage at dams per day) but are specified in the simulation below to show how they are specified by the user. 
 
-```{r, echo=TRUE, eval=FALSE}
+This simulation takes about 30 seconds to run on a modern laptop. You may wish to increase or reduce the number of cores passed to `ncpus` in the `sfInit()` function depending on the number of (virtual) cores available on your processor.
+
+```{r, warning = FALSE, message = FALSE}
 # Load R packages
   library(snowfall)
   library(rlecuyer)
   library(shadia)
-  library(plyr)
 
 # Initialize parallel mode using sockets
 sfInit(parallel=TRUE, cpus=7, type="SOCK")
 
-
-wrapper <- function(idx) {
+wrapper <- function(model) {
 
   # Run the model
   res1 <- penobscotRiverModel(
-          nRuns = 1,
-          nYears = 50,
-          timing = list(1,1,1,1,1,1,1),
+          nYears = 20,
+          species = "shad",
+          timing = c(1,1,1,1,1,1,1),
           upstream = list(
             milford = 0,
             howland = 1,
@@ -78,65 +76,90 @@ wrapper <- function(idx) {
             guilford = 1,
             weldon = 1
           ),
+          downstream_juv = list(
+            stillwater = 1,
+            orono = 1,
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
           pinHarvest = 0,
           inRiverF = 0,
           commercialF = 0,
           bycatchF = 0,
           indirect = 1,
           latent = 1,
-          watershed = TRUE
+          watershed = TRUE,
+          k_method = "cumulative",
+          sensitivity = FALSE,
+          spatially_explicit_output = FALSE,
+          output_years = NULL,
+          output_p_repeat = FALSE          
   )
   
   # Define the output lists
-    retlist <- list(sim=res1)       
+    retlist <- list(sim = res1)       
     return(retlist)
 }
 
 # Export needed data to workers 
 # load required packages on workers.
   sfLibrary(shadia)
-
+  sfLibrary(rlecuyer)
 
 # Distribute calculation to workers
-  niterations <- 30
+# Choose a number of runs here
+  niterations <- 10
   start <- Sys.time()
 
 # Use sfLapply() function to send wrapper() to the workers:
   result <- sfLapply(1:niterations, wrapper) 
     
-# Stop snowfall
+# Calculate run time
   Sys.time()-start  
+  
+# Stop snowfall 
   sfStop()
+  
+```
 
-# 8. Examine the results returned from the cluster:
+Then we can extract the results and bind them into a dataframe (note this process changes if output options are changed - see other examples for these).
 
-# 'result' is a list of lists. Save this:
-  save(result, file = "sf-no_passage.rda")
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
 
 # Extract results list from output list
   out <- lapply(result, function(x) x[[c('sim')]])
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
-
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
-
-# Have a look at result  
-  plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize))
-  plot(plotter$year, plotter$mu, type = 'l', col='red', lwd=2,
-       xlab = 'Year', ylab='Spawner abundance')
-  
+  resdf <- do.call(rbind, out)
 ```
 
-```{r, echo=FALSE, eval=TRUE}
-# Load the result
-  load(file="sf-no_passage.rda")
-  plot(plotter$year, plotter$mu, type = 'l', col='red', lwd=2,
-       xlab = 'Year', ylab='Spawner abundance')
+We can plot the results by year with confidence intervals if we summarize the data accordingly:
+
+```{r, warning = FALSE, message = FALSE}
+# Load tidyverse
+library(tidyverse)
+
+# Summarize by year
+plotter <- resdf %>%
+  group_by(year) %>%
+  summarize(
+    pop=mean(populationSize),
+    lci=CI(populationSize)[1],
+    uci=CI(populationSize)[2]
+    )
+  
+# Plot
+ggplot(plotter, aes(x = year, y = pop)) +
+  geom_ribbon(aes(x = year, ymin = lci, ymax = uci), alpha = 0.10) +
+  geom_line() +
+  theme_bw()
+
 ```
 
 <br>
