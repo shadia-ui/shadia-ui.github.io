@@ -1,0 +1,178 @@
+```{r, child="../_styles.Rmd"}
+```
+
+<h2 id="multi"><b>No dams scenario</b></h2>
+
+Each of the models in `shadia` can be run under variable passage scenarios to understand how combinations of upstream and downstream dam passage influence population characteristics such as abundance. This can be done using fixed values for individual model sets, or by sampling passage values from pre-defined sets. The latter is generally easier to do because it reduces the number of simulations that must be organized and executed.
+
+Begin by loading libraries and setting up number of virtual cores (`ncpus`) when initializing a socket cluster with `snowfall`:
+
+```{r, warning = FALSE, message = FALSE}
+# Load R packages
+library(snowfall)
+library(rlecuyer)
+library(shadia)
+
+# Initialize snowfall
+sfInit(parallel=TRUE, cpus=7, type="SOCK")
+
+```
+
+Then, define a wrapper function that can be called in parallel using `sfLapply()`. Here, we specify `output_years = "last"` because we are interested in comparing population size in the final year of simulation among varying upstream and downstream passage efficiencies that we randomly sample from vectors of pre-defined values. These passage efficiencies must either be defined within the `wrapper` function or passed to `snowfall` as data.
+
+```{r}
+wrapper <- function(x) {
+        
+  # Randomly sampling passage efficiencies
+  # Upstream passage through dams
+  upstream_p <- seq(0, 1, .1)   
+  upstreamx <- sample(upstream_p, 1, replace = TRUE)
+  
+  # Adult downstream survival through dams
+  downstream_p <- c(0.90, 0.95, 1.00)   
+  downstreamx <- sample(downstream_p, 1, replace = TRUE)
+  
+  # Juvenile downstream survival through dams
+  downstream_juvp <- c(0.90, 0.95, 1.00)   
+  downstream_juvx <- sample(downstream_juvp, 1, replace = TRUE)
+  
+  # Run the model with desired settings or
+  # a random set of conditions
+  res1 <- mohawkHudsonRiverModel(
+    species = 'shad',
+    pMohawk = 0,
+    nYears = 20,
+    n_adults = rnorm(1, 1e4, 100),
+    timing = rep(1, 26),
+    upstream = list(
+      federal = upstreamx,
+      C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+      E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+      E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+      E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+      E19 = 1, E20 = 1
+    ),
+    downstream = list(
+      federal = downstreamx,
+      C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+      E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+      E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+      E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+      E19 = 1, E20 = 1
+    ),
+    downstream_juv = list(
+      federal = downstream_juvx,
+      C01 = 1, C02 = 1, C03 = 1, C04 = 1, C05 = 1, C06 = 1,
+      E02 = 1, E03 = 1, E04 = 1, E05 = 1, E06 = 1,
+      E07 = 1, E08 = 1, E09 = 1, E10 = 1, E11 = 1, E12 = 1,
+      E13 = 1, E14 = 1, E15 = 1, E16 = 1, E17 = 1, E18 = 1,
+      E19 = 1, E20 = 1
+    ),  
+    lockMortality = 0,
+    inRiverF = 0,
+    commercialF = 0,
+    bycatchF = 0,
+    indirect = 1,
+    latent = 1,
+    watershed = TRUE,
+    k_method = 'cumulative',
+    sensitivity = FALSE,
+    spatially_explicit_output = FALSE,
+    output_years = "last",
+    output_p_repeat = FALSE  
+    )
+
+  # Define the output list
+  retlist <- list(
+    sim = res1)       
+  return(retlist)
+}
+```
+
+Load libraries on cluster and define desired number of iterations. Note that `niterations <- 200` is used to obtain a minimal output necessary to generate a plot here for brevity. A larger simulation with 1,000 - 2,000 runs may take 20-40 minutes on a modern laptop depending on hardware, number of years simulated, and passage efficiencies (due influence on number of fish used on time to run individual-based model components).
+
+```{r, warning = FALSE, message = FALSE}
+# Load packages on workers
+sfLibrary(shadia)
+sfLibrary(rlecuyer)
+
+# Number of iterations
+niterations <- 200
+
+```
+
+Run the simulation in parallel using `sfLapply()`. This may take a few minutes on a laptop with 8 cores.
+
+```{r, warning = FALSE, message = FALSE}
+# Distribute pre-defined wrapper function
+# to workers using sfLapply()
+result <- sfLapply(1:niterations, wrapper) 
+
+# Stop snowfall
+sfStop()
+
+
+```
+
+Extract the results and compile into a dataframe:
+
+```{r}
+# Extract results list from output list
+out <- lapply(result, function(x) x[[c('sim')]])
+
+# Extract user inputs and population metrics
+# res <- lapply(out, function(x) x[[c('res')]])
+resdf <- do.call(rbind, out)
+```
+
+Summarize and plot abundance by various passage combinations:
+
+```{r, warning = FALSE, message = FALSE, figure.width = 10}
+# Summary
+library(tidyverse)
+plotter <- resdf %>%
+  group_by(downstream_juv, downstream, upstream) %>%
+  summarize(
+    pop=mean(populationSize),
+    lci=CI(populationSize)[1],
+    uci=CI(populationSize)[2]
+    )
+
+# Labels for facets
+plotter$downstream_juv <- paste0("Juvenile downstream = ",
+                                plotter$downstream_juv)
+
+# Plot
+ggplot(plotter, 
+       aes(x = upstream, 
+           y = pop, 
+           color = factor(downstream), 
+           fill = factor(downstream))) +
+  geom_ribbon(
+    aes(x = upstream, ymin = lci, ymax = uci, color = NULL), alpha = 0.10) +
+  geom_line() +
+  facet_wrap(~ downstream_juv) +
+  scale_x_continuous(limits = c(0, 1), expand = c(0, 0)) +
+  xlab("Upstream passage per day") +
+  ylab("Millions of spawners") +
+  labs(color = "Adult downstream survival",
+       fill = "Adult downstream survival") +
+  scale_y_continuous(breaks = seq(0,10e7,.5e6),
+                     labels = format(seq(0, 100, .5), digits=2)) + 
+  theme_bw() +
+  theme(
+    panel.spacing = unit(.05, units = "npc"),
+    panel.grid = element_blank(),
+    legend.position = "top",
+    legend.box = "horizontal",
+    legend.margin = margin(unit(.5, units = "npc")),
+    axis.text = element_text(color = "black"),
+    axis.title.x = element_text(vjust = -1),
+    axis.title.y = element_text(vjust = 3),
+    strip.background = element_blank(),
+    strip.text = element_text(size = 8)
+    )
+
+```
+
+<br>

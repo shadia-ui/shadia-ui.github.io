@@ -7,24 +7,20 @@ This page contains examples of how to run dam passage performance standards mode
 
 If you have specific examples you would like to see, please suggest them using the <a href="https://github.com/danStich/shadia/issues">issue tracker</a>, or better yet, submit them as examples based on those provided here.
 
-<h3 id="multi"><b>General use examples</b></h3>
 
-<h4 id="multi"><b><em>"No passage" and "No dams" scenarios</em></b></h4>
+<h2 id="multi"><b>No Passage and No Dams scenarios</b></h2>
 
-These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models.
+These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models when `sensitivity = TRUE`.
 
-<a href = "examples/no_passage.html">No passage</a> example using `penobscotRiverModel()`. <br>
-<a href = "examples/no_dams.html">No dams</a> example using `penobscotRiverModel()`.
+<a href = "examples/no_passage.html">No Passage</a> example using `penobscotRiverModel()`. <br>
+<a href = "examples/no_dams.html">No Dams</a> example using `penobscotRiverModel()`.
 
 
-<h4 id="multi"><b><em>Watershed scale assessment</em></b></h4>
-This section will eventually contain some simulation code and some contour plots for watershed-scale applications of the models.
+<h2 id="multi"><b>Variable passage</b></h2>
+This section will eventually contain some simulation code and some contour plots for watershed-scale applications of the models using variable passage rates at dams.
+<a href = "examples/variable_mhr.html">Variable passage</a> example using `mohawkHudsonRiverModel()` and passage values that are randomly sampled from pre-defined objects with `watershed = TRUE`. <br>
 
-<h4 id="multi"><b><em>Individual dam impacts</em></b></h4>
+<h2 id="multi"><b>Individual dam impacts</b></h2>
 This section will eventually have examples of single-dam investigations.
-
-<h3 id="multi"><b>River-specific examples</b></h3>
-
-There are no river specific examples just yet. We are focusing initially on general applications. But, should really have some cases for trucking, NMPS in CTR, etc.
 
 </br>
