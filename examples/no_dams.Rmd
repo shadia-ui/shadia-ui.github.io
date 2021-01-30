@@ -7,50 +7,46 @@ Each of the models in `shadia` can be run under a "no dams" scenario to understa
 
 This is easily achieved for any of the models by running with the default parameter values. 
 
-Here is an example using the Penobscot River, with all other user-specified arguments set to their default values:
-```{r, eval=FALSE}
+Here is an example using the Penobscot River. We use `watershed = TRUE` to set all passage efficiencies to be the same at all dams in the watershed and reduce output size (a single value is returned each for `upstream`, `timing`, `downstream` and `downstream_juv` instead of dam-specific columns). This generates a warning to the user as a reminder that values are recycled.
+
+```{r, warning=FALSE, message=FALSE}
 # Run the model with 100% upstream
 # passage at any of the dams
-nodams <- penobscotRiverModel()  
-```
+library(shadia)
+no_dams <- penobscotRiverModel(watershed = TRUE)  
 
-```{r, eval=TRUE, echo=FALSE}
-# Load previously run results - not shown in rmd output
-load(file="no_dams.rda")
 ```
 
 We could then get the output and plot our result. Of course, this is only a single run, so your results may be very different from what is shown here.
 
 ```{r}
-result = nodams$res
-
-plot(x = result$year, y = result$populationSize,
-     type = 'l', lwd=2, col = 'red', xlab='Year',
-     ylab='Spawner abundance')
+library(ggplot2)
+ggplot(no_dams, aes(x = year, y = populationSize)) + geom_line()
 ```
 
-The above example would run the model a single time for the default number of years (50, in the case of `penobscotRiverModel()`). If we wanted to do this several hundred times to get outputs that are robust to variability in the input distributions, then we could wrap the call above in a snowfall script.
+The above example would run the model a single time for the default number of years (40). If we wanted to do this several hundred times to get outputs that are robust to variability in the input distributions, then we could wrap the call above in a snowfall script.
 
-This might look something like:
+This might look something like the following (here we use `nYears = 20` and `niterations = 10`, along with default output options such as `spatially_explicit_output = FALSE` and `watershed = TRUE` for sake of speed). All passage efficiencies are set to their default value of 1 (100% chance of passage at dams per day) but are specified in the simulation below to show how they are specified by the user. 
 
-```{r, eval=FALSE, echo=TRUE}
+This simulation takes about 30 seconds to run on a modern laptop. You may wish to increase or reduce the number of cores passed to `ncpus` in the `sfInit()` function depending on the number of (virtual) cores available on your processor.
+
+```{r, warning = FALSE, message = FALSE}
 # Load R packages
   library(snowfall)
   library(rlecuyer)
   library(shadia)
-  library(plyr)
 
 # Initialize parallel mode using sockets
 sfInit(parallel=TRUE, cpus=7, type="SOCK")
 
-
-wrapper <- function(idx) {
+wrapper <- function(model) {
 
   # Run the model
   res1 <- penobscotRiverModel(
           nRuns = 1,
-          nYears = 50,
-          timing = list(1,1,1,1,1,1,1),
+          nYears = 20,
+          species = "shad",
+          timing = c(1,1,1,1,1,1,1),
           upstream = list(
             milford = 1,
             howland = 1,
@@ -71,72 +67,120 @@ wrapper <- function(idx) {
             guilford = 1,
             weldon = 1
           ),
+          downstream_juv = list(
+            stillwater = 1,
+            orono = 1,
+            milford = 1,
+            howland = 1,
+            westEnfield = 1,
+            brownsMill = 1,
+            moosehead = 1,
+            guilford = 1,
+            weldon = 1
+          ),
           pinHarvest = 0,
           inRiverF = 0,
           commercialF = 0,
           bycatchF = 0,
           indirect = 1,
           latent = 1,
-          watershed = TRUE
+          watershed = TRUE,
+          k_method = "cumulative",
+          sensitivity = FALSE,
+          spatially_explicit_output = FALSE,
+          output_years = NULL,
+          output_p_repeat = FALSE          
   )
   
   # Define the output lists
-    retlist <- list(sim=res1)       
+    retlist <- list(sim = res1)       
     return(retlist)
 }
 
 # Export needed data to workers 
 # load required packages on workers.
   sfLibrary(shadia)
-
+  sfLibrary(rlecuyer)
 
 # Distribute calculation to workers
-  niterations <- 30
+# Choose a number of runs here
+  niterations <- 10
   start <- Sys.time()
 
 # Use sfLapply() function to send wrapper() to the workers:
   result <- sfLapply(1:niterations, wrapper) 
     
-# Stop snowfall
+# Calculate run time
   Sys.time()-start  
+  
+# Stop snowfall 
   sfStop()
+  
+```
+
+Then we can extract the results and bind them into a dataframe (note this process changes if output options are changed - see other examples for these).
+
+```{r, warning = FALSE, message = FALSE}
+library(tidyverse)
 
 # Extract results list from output list
   out <- lapply(result, function(x) x[[c('sim')]])
 
 # Extract user inputs and population metrics
-  res <- lapply(out, function(x) x[[c('res')]])
-  resdf <- do.call(rbind, res)
-
-# Extract sensitivity variables
-  sens <- lapply(out, function(x) x[[c('sens')]])
-  sensdf <- do.call(rbind, sens)
-
-# Have a look at result  
-  plotter <- ddply(resdf, 'year', summarize,
-                   mu=mean(populationSize),
-                   lwr=quantile(populationSize, probs=0.25),
-                   upr=quantile(populationSize, probs=0.75)
-                   )
-  plot(plotter$year, plotter$mu, type = 'l',
-       xlab = 'Year', ylab='Spawner abundance',
-       ylim=c(0, max(plotter$upr)))
-  polygon(x=c(plotter$year, rev(plotter$year)),
-          y=c(plotter$lwr, rev(plotter$upr)),
-          col='gray87', border=NA)
-  lines(plotter$year, plotter$mu, col='red', lwd=2)
+  resdf <- do.call(rbind, out)
 ```
 
-```{r, echo=F, eval=T}
-# Load the result
-  load(file="sf-no_dams.rda")
-  plot(plotter$year, plotter$mu, type = 'l',
-       xlab = 'Year', ylab='Spawner abundance',
-       ylim=c(0, max(plotter$upr)))
-  polygon(x=c(plotter$year, rev(plotter$year)),
-          y=c(plotter$lwr, rev(plotter$upr)),
-          col='gray87', border=NA)
-  lines(plotter$year, plotter$mu, col='red', lwd=2)
+We can plot the results by year with confidence intervals if we summarize the data accordingly:
+
+```{r, warning = FALSE, message = FALSE}
+# Summarize by year
+plotter <- resdf %>%
+  group_by(year) %>%
+  summarize(
+    pop=mean(populationSize),
+    lci=CI(populationSize)[1],
+    uci=CI(populationSize)[2]
+    )
+  
+# Plot
+ggplot(plotter, aes(x = year, y = pop)) +
+  geom_ribbon(aes(x = year, ymin = lci, ymax = uci), alpha = 0.10) +
+  geom_line() +
+  theme_bw()
+
+```
+
+We could also plot the mean (or median, or Q3 - whatever you like) on top of individual simuations if we keep track of those:
+
+```{r, warning = FALSE, message = FALSE}
+# Add a column for simulation based on number of years
+resdf$simulation_id <- paste("sim_", sort(rep(seq(1,10,1), 20)))
+
+# Summarize by year
+plotter <- resdf %>%
+  group_by(year, simulation_id) %>%
+  summarize(
+    pop=mean(populationSize),
+    lci=CI(populationSize)[1],
+    uci=CI(populationSize)[2]
+    )
+
+# Descriptive statistic of interest
+desc_stat <- resdf %>%
+  group_by(year) %>%
+  summarize(
+    pop=mean(populationSize),
+    lci=CI(populationSize)[1],
+    uci=CI(populationSize)[2]
+    )
+  
+# Plot
+ggplot(plotter, aes(x = year, y = pop, color = simulation_id)) +
+  geom_line(show.legend = FALSE) +
+  geom_line(aes(x = year, y = pop), data = desc_stat, 
+            color = "black", size = 1) +
+  theme_bw()
+
 ```
 
 <br>

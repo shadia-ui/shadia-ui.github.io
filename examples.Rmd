@@ -5,7 +5,7 @@
 
 This page contains examples of how to run dam passage performance standards models in the `shadia` package for R. This is a work in progress. It is in no way meant to be comprehensive or a record of simulations that have been conducted to date. The examples here are simply meant to get the user started. There are a near-infinite number of ways that these models can be run to suit specific situations. 
 
-If you have specific examples you would like to see, please suggest them using the <a href="https://github.com/danStich/shadia/issues">issues tracker</a>, or better yet, submit them as examples based on those provided here.
+If you have specific examples you would like to see, please suggest them using the <a href="https://github.com/danStich/shadia/issues">issue tracker</a>, or better yet, submit them as examples based on those provided here.
 
 <h3 id="multi"><b>General use examples</b></h3>
 
