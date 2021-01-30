@@ -21,7 +21,7 @@ This section contains parallel simulation code, basic results summaries, and som
 
 <a href = "examples/variable_mhr.html">**Variable passage with random sampling**</a> example using `mohawkHudsonRiverModel()`. These simulations are most useful when a wide range of un-coupled upstream and downstream passage efficiencies or upstream `timing` are being crossed for comparison. From a management context, they are most useful if treating passage standards as being fixed among dams or establishing baselines for passage needs relative to management objectives.<br>
 
-<!-- <a href = "examples/variable_mhr.html">Variable passage</a> example using `mohawkHudsonRiverModel()` and passage values that are randomly sampled from pre-defined objects with `watershed = TRUE`. <br> -->
+<a href = "examples/variable_mhr.html">**Fixed passage combinations**</a> example using `mohawkHudsonRiverModel()` and fixed combinations of passage values that are randomly sampled from a matrix or dataframe of paired passage values `watershed = TRUE`. These simulations are most useful when only a limited number of passage combinations are being considered. From the management context, these they are most useful given assumptions in the example *and* a small number of scenarios are being considered to fine-tune over a small range of values identified through precedent or exploratory runs such as those described in the previous example.<br>
 
 <h2 id="multi"><b>Variable passage (watershed-wide standards)</b></h2>
 This section will eventually have examples of single-dam investigations.
