@@ -42,14 +42,14 @@ See `?shadia::tempData_kennebec` in R for more information about the historical 
 <h3 id="multi"><b>Biological data</b></h3>
 
 <h4 id="multi"><em>American shad</em></h4>
-The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. Othes are seeded intially and are derived from model observations as emergent patterns thereafter. However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from coastal stock assessments.
+The majority of biological data and behavioral processes in `shadia` are conserved between systems to standardize the approach. Others are seeded initially and are derived from model observations as emergent patterns thereafter. However, each river system requires some river-specific biological data including maximum age, starting population sizes, and membership in life-history based '`region`s' used to parameterize size at age and marine survival rates from coastal stock assessments.
 
 The maximum age used for simulation in the Kennebec River is age 9 based on observed fish ages in other New England Rivers. The model is seeded with an initial age-1 abundance of about 0.2 million fish. Growth and marine survival inputs are parameterized using estimates for "Northern iteroparous" populations from Atlantic States Marine Fisheries Commission (ASMFC) 2020 American shad stock assessment. Growth and mortality are both projected from parameters of a von Bertalanffy growth function (VBGF) that includes effects of sea surface temperature on parameters *L*~$\infty$~ and *K*. Marine survival and growth parameters are projected under RCP8.5 for this system using SST from the Northeast Continental Shelf Large Marine Ecosystem.
 
 <h2 id="multi"><em>Blueback herring</em></h2>
 Some species-specific data were used in parameterizing blueback herring models, although the majority of movement dynamics are the same as for American shad provided that 1) previously implemented dynamics were based on body lengths per second, and 2) similar data for blueback herring are currently lacking. 
 
-Species-specific life-history inputs from blueback herring in the Hudson River include maximum age, cumulative probability of recruitment to first spawn, probability of repeat spawning, length-at-age and von Bertalanffy growth parameter estimates, and natural mortality estimates. 
+Species-specific life-history inputs from blueback herring in the Kennebec River include maximum age, cumulative probability of recruitment to first spawn, probability of repeat spawning, length-at-age and von Bertalanffy growth parameter estimates, and natural mortality estimates. 
 
 <b>Maximum age</b> reported by Maine Department of Marine Resources (MEDMR, unpublished data) was 7 years. 
 
