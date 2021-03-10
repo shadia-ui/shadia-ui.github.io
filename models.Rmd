@@ -13,6 +13,8 @@ The models provided through `shadia` can be used for a variety of purposes, from
 
 Models that are currently implemented in `shadia` (with current status) include :
 
+<b><a href="about_androscoggin.html">`androscogginRiverModel`</a></b> This model is currently undergoing review with fishery and habitat scientists and managers at the Maine Deparment of Marine Resources. 
+
 <b><a href="about_connecticut.html">`connecticutRiverModel`</a></b> This model has been vetted with cooperators and fishery managers during the course of several years. Version 2.0 is currently in preparation for submission for peer-review as part of a cross-sectional analysis with the Merrimack, Penobscot, and Susquehanna rivers. Version (1.8.0) is described in Gilligan (2020). This model was used previously to inform federal hydropower relicensing (v 1.3.0).
 
 <b><a href="about_kennebec.html">`kennebecRiverModel`</a></b> This model has undergone review with fishery and habitat managers at Maine Department of Marine Resources and the National Oceanic and Atmospheric administration Habitat Division. System-specific blueback herring data are used in this model.
