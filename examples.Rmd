@@ -10,7 +10,7 @@ If you have specific examples you would like to see, please suggest them using t
 
 <h2 id="multi"><b>No Passage and No Dams scenarios</b></h2>
 
-These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models when `sensitivity = TRUE`.
+These examples are meant to provide a quick look at how to specify models without fish passage, or without dams. These two simple model specifications can be used to explore scope of impact or to establish baselines for comparison with other scenarios. In the absence of dam impacts, the user can explore population sensitivity to factors other than dams, such as various types of fishery-related mortality and the numerous variables stored in the `sens` object of the output list for each of the river models when `sensitivity = TRUE`.
 
 <a href = "examples/no_passage.html">**No Passage**</a> example using `penobscotRiverModel()`. These simulations are most useful for establishing assumed baseline condition in the absence of fish passage.<br>
 
