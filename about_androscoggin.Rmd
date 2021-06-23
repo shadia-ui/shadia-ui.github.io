@@ -11,7 +11,7 @@ The purpose of this page is to provide a general overview of the Androscoggin Ri
 
 The Androscoggin River Model includes American shad and blueback herring habitat from Brunswick Dam at head of tide to Bisco Falls in the Little Androscoggin and Sabattus Pond in the Sabattus River.
 
-Projects that can be assessed in the Androscoggin and Little Androscoggin Rivers include Brunswick, Pejebscot, Worumbo, Lower Baker, Upper Baker, Littlefield (breached), Hackett's Mills, Mechanics Falls (Marcal), Welchville, and South Paris. Farwell and Fortier dams can each be assessed within the Sabattus River. The probability that fish use the mainstem or the Sabattus River can be specified by the user, and default value is based on proportion of habitat in each of the migration routes.
+Projects that can be assessed in the Androscoggin and Little Androscoggin Rivers include Brunswick, Pejepscot, Worumbo, Lower Baker, Upper Baker, Littlefield (breached), Hackett's Mills, Mechanics Falls (Marcal), Welchville, and South Paris. Farwell and Fortier dams can each be assessed within the Sabattus River. The probability that fish use the mainstem or the Sabattus River can be specified by the user, and default value is based on proportion of habitat in each of the migration routes.
 
 <!-- <img id="multi" src="images/kennebec.png" alt="Kennebec River model schematic showing dams, migration routes, and production units" width=500em> -->
 
